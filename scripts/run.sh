@@ -26,6 +26,7 @@ function cleanup {
 # NATS
 ###
 gnatsd &
+sleep 0.1
 
 ###
 # Users
@@ -35,7 +36,7 @@ MF_USERS_LOG_LEVEL=info $BUILD_DIR/mainflux-users &
 ###
 # Things
 ###
-MF_THINGS_LOG_LEVEL=info MF_THINGS_HTTP_PORT=8182 MF_THINGS_GRPC_PORT=8183 $BUILD_DIR/mainflux-things &
+MF_THINGS_LOG_LEVEL=info MF_THINGS_HTTP_PORT=8182 MF_THINGS_AUTH_GRPC_PORT=8183 $BUILD_DIR/mainflux-things &
 
 ###
 # HTTP
@@ -57,14 +58,14 @@ MF_NORMALIZER_LOG_LEVEL=INFO MF_NORMALIZER_PORT=8184 MF_NATS_URL=localhost:4222 
 ###
 # Switch to top dir to find *.proto stuff when running MQTT broker
 
-cd ..
-MF_MQTT_ADAPTER_LOG_LEVEL=info MF_THINGS_URL=localhost:8183 node mqtt/mqtt.js &
-cd -
+#cd ..
+#MF_MQTT_ADAPTER_LOG_LEVEL=info MF_THINGS_URL=localhost:8183 node mqtt/mqtt.js &
+#cd -
 
 ###
 # CoAP
 ###
-MF_COAP_ADAPTER_LOG_LEVEL=info MF_COAP_ADAPTER_PORT=5683 MF_THINGS_URL=localhost:8183 $BUILD_DIR/mainflux-coap &
+#MF_COAP_ADAPTER_LOG_LEVEL=info MF_COAP_ADAPTER_PORT=5683 MF_THINGS_URL=localhost:8183 $BUILD_DIR/mainflux-coap &
 
 trap cleanup EXIT
 
