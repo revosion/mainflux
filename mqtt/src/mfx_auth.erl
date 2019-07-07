@@ -28,14 +28,14 @@ identify(undefined) ->
 identify(Password) ->
     error_logger:info_msg("identify: ~p", [Password]),
     URL = <<"http://localhost:8989/identify">>,
-    ReqBody = jiffy:encode(#{<<"token">> => Password}),
+    ReqBody = jsone:encode(#{<<"token">> => Password}),
     ReqHeaders = [{<<"Content-Type">>, <<"application/json">>}],
     {ok, Status, _, Ref} = hackney:request(post, URL, ReqHeaders, ReqBody),
     case Status of
         200 ->
             case hackney:body(Ref) of
                 {ok, RespBody} ->
-                    {[{<<"id">>, Id}]} = jiffy:decode(RespBody),
+                    {[{<<"id">>, Id}]} = jsone:decode(RespBody, [{object_format, tuple}]),
                     {ok, Id};
                 _ ->
                     error
@@ -53,14 +53,14 @@ access(UserName, ChannelId) ->
         _ ->
             URL = [<<"http://localhost:8989/channels/">>, ChannelId, <<"/access">>],
             error_logger:info_msg("URL: ~p", [URL]),
-            ReqBody = jiffy:encode(#{<<"token">> => Password}),
+            ReqBody = jsone:encode(#{<<"token">> => Password}),
             ReqHeaders = [{<<"Content-Type">>, <<"application/json">>}],
             {ok, Status, _, Ref} = hackney:request(post, URL, ReqHeaders, ReqBody),
             case Status of
                 200 ->
                     case hackney:body(Ref) of
                         {ok, RespBody} ->
-                            {[{<<"id">>, Id}]} = jiffy:decode(RespBody),
+                            {[{<<"id">>, Id}]} = jsone:decode(RespBody, [{object_format, tuple}]),
                             {ok, Id};
                         _ ->
                             error

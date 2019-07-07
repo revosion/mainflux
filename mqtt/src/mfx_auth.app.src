@@ -8,6 +8,7 @@
                   stdlib,
                   teacup,
                   gpb,
+                  jsone,
                   hackney
                  ]},
   {mod, { mfx_auth_app, []}},
