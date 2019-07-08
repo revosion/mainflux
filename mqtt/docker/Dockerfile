@@ -6,9 +6,12 @@ RUN apk add --no-cache git && \
   ./rebar3 compile
 
 FROM vernemq/vernemq:1.8.0-alpine
+ENV VMQ_CONF=/etc/vernemq/vernemq.conf
 WORKDIR /mainflux
 COPY --from=builder /mainflux .
 
-RUN /vernemq/bin/vmq-admin plugin disable -n vmq_acl && \
-  /vernemq/bin/vmq-admin plugin disable -n vmq_passwd && \
-  /vernemq/bin/vmq-admin plugin enable -n mfx_auth -p /mainflux/_build/default
+RUN sed -i 's/plugins.vmq_passwd = on/plugins.vmq_passwd = off/' $VMQ_CONF && \
+  sed -i 's/plugins.vmq_acl = on/plugins.vmq_acl = off/' $VMQ_CONF && \
+  echo 'plugins.mfx_auth = on' >> $VMQ_CONF && \
+  echo 'plugins.mfx_auth.path = /mainflux/_build/default' >> $VMQ_CONF && \
+  cat $VMQ_CONF
