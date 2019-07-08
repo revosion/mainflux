@@ -14,16 +14,11 @@
 start_link() ->
     error_logger:info_msg("mfx_nats", []),
 
-    NatsUrl = case os:getenv("MF_NATS_URL") of
-        false -> "nats://localhost:4222";
-        NatsEnv -> NatsEnv
-    end,
-
+    [{_, NatsUrl}] = ets:lookup(mfx_cfg, nats_url),
     {ok, {_, _, NatsHost, NatsPort, _, _}} = http_uri:parse(NatsUrl),
     {ok, NatsConn} = nats:connect(list_to_binary(NatsHost), NatsPort, #{buffer_size => 10}),
 
     ets:insert(mfx_cfg, [
-        {nats_url, NatsUrl},
         {nats_conn, NatsConn}
     ]),
 

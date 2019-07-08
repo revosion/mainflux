@@ -14,6 +14,20 @@ start(_StartType, _StartArgs) ->
     % Put ENV variables in ETS
     ets:new(mfx_cfg, [set, named_table, public]),
 
+    AuthUrl = case os:getenv("MF_THINGS_AUTH_HTTP_PORT") of
+        false -> "http://localhost:8989";
+        AuthEnv -> AuthEnv
+    end,
+    NatsUrl = case os:getenv("MF_NATS_URL") of
+        false -> "nats://localhost:4222";
+        NatsEnv -> NatsEnv
+    end,
+
+    ets:insert(mfx_cfg, [
+        {auth_url, AuthUrl},
+        {nats_url, NatsUrl}
+    ]),
+
     % Start Hackney
     application:ensure_all_started(hackney),
 

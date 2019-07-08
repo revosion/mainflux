@@ -27,7 +27,8 @@ identify(undefined) ->
     {error, undefined};
 identify(Password) ->
     error_logger:info_msg("identify: ~p", [Password]),
-    URL = <<"http://localhost:8989/identify">>,
+    [{_, AuthUrl}] = ets:lookup(mfx_cfg, auth_url),
+    URL = [AuthUrl, <<"/identify">>],
     ReqBody = jsone:encode(#{<<"token">> => Password}),
     ReqHeaders = [{<<"Content-Type">>, <<"application/json">>}],
     {ok, Status, _, Ref} = hackney:request(post, URL, ReqHeaders, ReqBody),
@@ -51,7 +52,8 @@ access(UserName, ChannelId) ->
         undefined ->
             {error, undefined};
         _ ->
-            URL = [<<"http://localhost:8989/channels/">>, ChannelId, <<"/access">>],
+            [{_, AuthUrl}] = ets:lookup(mfx_cfg, auth_url),
+            URL = [AuthUrl, <<"/channels/">>, ChannelId, <<"/access">>],
             error_logger:info_msg("URL: ~p", [URL]),
             ReqBody = jsone:encode(#{<<"token">> => Password}),
             ReqHeaders = [{<<"Content-Type">>, <<"application/json">>}],
