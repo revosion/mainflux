@@ -31,6 +31,7 @@ identify(Password) ->
     URL = [AuthUrl, <<"/identify">>],
     ReqBody = jsone:encode(#{<<"token">> => Password}),
     ReqHeaders = [{<<"Content-Type">>, <<"application/json">>}],
+    error_logger:info_msg("access: ~p", [URL]),
     {ok, Status, _, Ref} = hackney:request(post, URL, ReqHeaders, ReqBody),
     case Status of
         200 ->

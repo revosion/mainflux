@@ -96,7 +96,7 @@ ui:
 	$(MAKE) -C ui
 
 mqtt:
-	cd mqtt && npm install
+	cd mqtt && rebar3 compile
 
 define docker_push
 	for svc in $(SERVICES); do \

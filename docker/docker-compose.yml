@@ -203,7 +203,7 @@ services:
       - mainflux-mqtt-redis-volume:/data
 
   mqtt-adapter:
-    image: mainflux/mqtt:latest
+    image: mainflux/mqtt-amd64:latest
     container_name: mainflux-mqtt
     depends_on:
       - things
@@ -218,7 +218,11 @@ services:
       MF_MQTT_ADAPTER_REDIS_HOST: mqtt-redis
       MF_MQTT_ADAPTER_ES_HOST: es-redis
       MF_NATS_URL: ${MF_NATS_URL}
-      MF_THINGS_URL: things:${MF_THINGS_AUTH_GRPC_PORT}
+      MF_THINGS_AUTH_HTTP_URL: http://things:${MF_THINGS_AUTH_HTTP_PORT}
+      DOCKER_VERNEMQ_PLUGINS__VMQ_PASSWD: "off"
+      DOCKER_VERNEMQ_PLUGINS__VMQ_ACL: "off"
+      DOCKER_VERNEMQ_PLUGINS__MFX_AUTH: "on"
+      DOCKER_VERNEMQ_PLUGINS__MFX_AUTH__PATH: /mainflux/_build/default
     ports:
       - ${MF_MQTT_ADAPTER_PORT}:${MF_MQTT_ADAPTER_PORT}
       - ${MF_MQTT_ADAPTER_WS_PORT}:${MF_MQTT_ADAPTER_WS_PORT}

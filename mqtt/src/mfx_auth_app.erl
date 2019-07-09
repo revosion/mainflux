@@ -14,7 +14,7 @@ start(_StartType, _StartArgs) ->
     % Put ENV variables in ETS
     ets:new(mfx_cfg, [set, named_table, public]),
 
-    AuthUrl = case os:getenv("MF_THINGS_AUTH_HTTP_PORT") of
+    AuthUrl = case os:getenv("MF_THINGS_AUTH_HTTP_URL") of
         false -> "http://localhost:8989";
         AuthEnv -> AuthEnv
     end,
