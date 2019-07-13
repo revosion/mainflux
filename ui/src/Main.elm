@@ -299,7 +299,7 @@ mfStylesheet =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "Mainflux"
+    { title = "中国泵云设备管理"
     , body =
         let
             buttonAttrs =
@@ -368,7 +368,7 @@ view model =
                     [ Grid.row []
                         [ Grid.col
                             [ Col.attrs [] ]
-                            [ h3 [ class "title" ] [ text "MAINFLUX" ] ]
+                            [ h3 [ class "title" ] [ text "中国泵云设备管理" ] ]
                         ]
                     , Grid.row []
                         [ Grid.col
