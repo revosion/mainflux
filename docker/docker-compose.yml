@@ -179,6 +179,8 @@ services:
       MF_HTTP_ADAPTER_PORT: ${MF_HTTP_ADAPTER_PORT}
       MF_NATS_URL: ${MF_NATS_URL}
       MF_THINGS_URL: things:${MF_THINGS_AUTH_GRPC_PORT}
+    expose:
+      - ${MF_HTTP_ADAPTER_PORT}
     ports:
       - ${MF_HTTP_ADAPTER_PORT}:${MF_HTTP_ADAPTER_PORT}
     networks:
