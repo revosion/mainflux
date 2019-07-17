@@ -194,7 +194,12 @@ services:
       MF_HTTP_ADAPTER_PORT: ${MF_HTTP_ADAPTER_PORT}
       MF_NATS_URL: ${MF_NATS_URL}
       MF_THINGS_URL: things:${MF_THINGS_AUTH_GRPC_PORT}
+<<<<<<< 672815257aedb64fa9d767a2e3fcbcb8073b820c
       MF_JAEGER_URL: ${MF_JAEGER_URL}
+=======
+    expose:
+      - ${MF_HTTP_ADAPTER_PORT}
+>>>>>>> add webservice microservice
     ports:
       - ${MF_HTTP_ADAPTER_PORT}:${MF_HTTP_ADAPTER_PORT}
     networks:
