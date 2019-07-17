@@ -9,5 +9,5 @@ module Env exposing (env)
 
 env =
     { -- Leave empty to let browser prepend base URL to requests
-      url = ""
+      url = "http://47.88.225.240/"
     }
